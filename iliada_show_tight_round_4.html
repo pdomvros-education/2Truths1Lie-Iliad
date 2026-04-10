@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Δυο Αλήθειες κι ένα Ψέμα — Γύρος 4</title>
+<style>
+:root{--bg:#f3e1c5;--paper:#f8edd9;--paper2:#f4e6cf;--ink:#3e2416;--muted:#6f5444;--bronze:#a55b34;--bronze-dark:#6f351f;--gold:#d5ad6d;--line:#7d4329;--good:#627e2d;--bad:#a53d2e;--shadow:0 8px 20px rgba(79,43,24,.12)}
+*{box-sizing:border-box} html,body{margin:0;padding:0} body{font-family:"Segoe UI",Arial,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f4e6cc,#eed8b9);min-height:100vh}
+a{text-decoration:none;color:inherit} button{font-family:inherit}
+.wrap{width:min(1220px,calc(100% - 18px));margin:8px auto 12px} .band{height:12px;border-radius:999px;background:linear-gradient(90deg,var(--line),var(--gold),var(--line));box-shadow:var(--shadow)}
+.shell{margin-top:7px;background:linear-gradient(180deg,rgba(255,249,240,.96),rgba(246,232,208,.99));border:2px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:var(--shadow)}
+.header{padding:12px 16px 9px;background:linear-gradient(180deg,rgba(125,67,41,.08),rgba(255,255,255,.22));border-bottom:1px solid rgba(125,67,41,.18)}
+.header-row{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap} .brand{display:flex;gap:10px;align-items:flex-start} .mark{width:40px;height:40px;border-radius:13px;background:radial-gradient(circle at 30% 30%,#f7ddb0,#c87b48 62%,#7a3d25);border:2px solid rgba(93,49,34,.72)}
+.header h1{margin:0;font-size:clamp(1.3rem,2.8vw,1.95rem);line-height:1.05} .header p{margin:2px 0 0;color:var(--muted);font-size:.96rem} .logo img{max-height:48px;max-width:110px;object-fit:contain}
+.main{padding:12px} .card{background:linear-gradient(180deg,rgba(255,250,244,.97),rgba(247,236,216,.98));border:1.5px solid rgba(125,67,41,.24);border-radius:20px;box-shadow:var(--shadow)}
+.toolbar{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px} .btnrow{display:flex;gap:8px;flex-wrap:wrap} .chips{display:flex;gap:7px;flex-wrap:wrap} .chip{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;font-weight:700;font-size:.88rem;background:linear-gradient(180deg,#fff4e2,#f0dbb8);border:1px solid rgba(125,67,41,.22);color:#6b402d}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:13px;font-weight:800;border:none;cursor:pointer;box-shadow:0 7px 14px rgba(92,49,30,.12)} .btn.primary{background:linear-gradient(180deg,var(--bronze),var(--bronze-dark));color:#fffaf2} .btn.secondary{background:linear-gradient(180deg,#f2dfbe,#dfc08c);color:#5e351f} .btn.ghost{background:linear-gradient(180deg,#fff8ee,#f3e2c7);color:#6b402d;border:1px solid rgba(125,67,41,.2)} .btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.game{padding:14px 15px} .meters{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center} .bars{display:grid;gap:7px} .bar{height:12px;background:#ead8bf;border-radius:999px;overflow:hidden;border:1px solid rgba(125,67,41,.2)} .fill{height:100%;width:0%;background:linear-gradient(90deg,#b26039,#e0b570);transition:width .25s ease, background .25s ease} .fill.warn{background:linear-gradient(90deg,#b9402c,#f1c060)} .timer{font-weight:900;font-size:1rem;color:#7a4028;min-width:48px;text-align:right}
+.scoreline{margin:10px 0 2px} .qtop{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;flex-wrap:wrap;margin-top:8px} .qnum{font-size:.9rem;font-weight:800;color:#7d462d} .qtitle{margin:5px 0 3px;font-size:1.28rem;line-height:1.22} .qsub{margin:0 0 10px;color:var(--muted);font-size:.95rem;font-weight:600}
+.options{display:grid;gap:10px} .option{width:100%;text-align:left;padding:12px 13px;border-radius:16px;border:2px solid rgba(125,67,41,.22);background:linear-gradient(180deg,#fff9ef,#f7ead6);color:var(--ink);cursor:pointer;transition:border-color .12s ease, transform .12s ease, box-shadow .12s ease} .option:hover{transform:translateY(-1px);border-color:#b96d41;box-shadow:0 8px 14px rgba(111,59,35,.1)} .optionline{display:flex;align-items:flex-start;gap:10px} .token{display:inline-flex;width:30px;height:30px;border-radius:50%;align-items:center;justify-content:center;background:linear-gradient(180deg,#d39a62,#a95f39);color:#fff8ef;flex:0 0 auto;font-weight:900} .otext{line-height:1.42}
+.option.correct{border-color:#7e9a45;background:linear-gradient(180deg,#f6f6df,#edf1d1)} .option.wrong{border-color:#bf533d;background:linear-gradient(180deg,#fff1ea,#f9ddd4)} .option.dim{opacity:.72}
+.feedback{margin-top:10px;padding:13px 14px;border-radius:16px;background:rgba(255,250,243,.94);border:1px solid rgba(125,67,41,.18);display:none} .feedback.show{display:block} .feedback h3{margin:0 0 7px;font-size:1.02rem} .feedback p{margin:.25rem 0;line-height:1.46}
+.badge{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;font-weight:800;font-size:.9rem} .good{background:#edf3d4;color:#4b5e1d} .bad{background:#fae0d7;color:#8a3326}
+.nextrow{margin-top:10px;display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap} .hint{font-size:.88rem;color:var(--muted)}
+.end{display:none;padding:18px;text-align:center} .end.show{display:block} .end h2{margin:0 0 8px;font-size:1.8rem} .scorebig{font-size:clamp(2.4rem,6vw,4rem);font-weight:900;color:#8e4b2c;margin:6px 0} .end p{margin:.4rem auto;max-width:720px;line-height:1.5;color:var(--muted)}
+.footer{padding:8px 14px 14px;text-align:center;font-size:.91rem;color:#734c37}
+@media (max-width:840px){.wrap{width:min(1220px,calc(100% - 10px));margin:5px auto 8px} .main{padding:10px} .header{padding:11px 12px 8px} .game,.end{padding:12px} .qtitle{font-size:1.16rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="band"></div>
+  <div class="shell">
+    <header class="header">
+      <div class="header-row">
+        <div class="brand">
+          <div class="mark"></div>
+          <div>
+            <h1>Δυο Αλήθειες κι ένα Ψέμα</h1>
+            <p>Πόσο καλά γνωρίζεις την υπόθεση της Ιλιάδας; · Γύρος 4</p>
+          </div>
+        </div>
+        <div class="logo"><img src="logo-GR.png" alt="logo" onerror="this.style.display='none'"></div>
+      </div>
+    </header>
+    <main class="main">
+      <div class="toolbar">
+        <div class="btnrow">
+          <a class="btn ghost" href="iliada_show_tight_index.html">⌂ Αρχική</a>
+          <button class="btn secondary" id="muteBtn" type="button">🔊 Ήχος: ON</button>
+        </div>
+        <div class="chips">
+          <span class="chip">Γύρος 4</span>
+          <span class="chip">Σετ 46–60</span>
+          <span class="chip">Σωστό: +8</span>
+          <span class="chip">Λάθος/χρόνος: −1</span>
+        </div>
+      </div>
+
+      <section class="card game" id="playScreen">
+        <div class="meters">
+          <div class="bars">
+            <div class="bar"><div class="fill" id="timerFill"></div></div>
+            <div class="bar"><div class="fill" id="questionFill"></div></div>
+          </div>
+          <div class="timer" id="timerText">25″</div>
+        </div>
+
+        <div class="chips scoreline">
+          <span class="chip" id="roundScoreChip">Σκορ γύρου: 0</span>
+          <span class="chip" id="totalScoreChip">Συνολικό σκορ: 0</span>
+        </div>
+
+        <div class="qtop">
+          <div>
+            <div class="qnum" id="questionNumber">Ερώτηση 1 / 15</div>
+            <h2 class="qtitle" id="questionTitle"></h2>
+            <p class="qsub">Ποια πρόταση είναι το ψέμα;</p>
+          </div>
+        </div>
+
+        <div class="options" id="optionsBox"></div>
+
+        <div class="feedback" id="feedbackBox">
+          <h3 id="feedbackTitle"></h3>
+          <p id="feedbackDelta"></p>
+          <p><strong>Σωστή επιλογή:</strong> <span id="correctAnswerLabel"></span></p>
+          <p id="feedbackExplanation"></p>
+        </div>
+
+        <div class="nextrow">
+          <div class="hint">Συντόμευση: πάτα <strong>1</strong>, <strong>2</strong>, <strong>3</strong> για επιλογή.</div>
+          <button class="btn primary" id="nextBtn" type="button" disabled>Επόμενη ερώτηση</button>
+        </div>
+      </section>
+
+      <section class="card end" id="endScreen">
+        <div style="font-size:2.6rem;line-height:1">🏛️</div>
+        <h2 id="endTitle">Ο γύρος ολοκληρώθηκε!</h2>
+        <div class="scorebig" id="finalRoundScore">0</div>
+        <p id="endMessage"></p>
+        <p><strong>Συνολικό σκορ παιχνιδιού:</strong> <span id="grandTotalText">0</span></p>
+        <div class="btnrow" style="justify-content:center;margin-top:12px" id="endButtons"></div>
+      </section>
+    </main>
+    <footer class="footer">Δημιουργία: Παναγιώτης Δόμβρος, Εκπαιδευτικός Αγγλικής Γλώσσας &amp; Θεατρολόγος, Διευθυντής 1ου Γυμνασίου Πυλαίας</footer>
+  </div>
+</div>
+<script>
+const ROUND_NO = 4;
+const POINTS = 8;
+const ROUND_KEY = 'iliada_round_' + ROUND_NO;
+const QUESTIONS = [{"id": 46, "title": "Ραψωδία Ω (Μέσα στη Σκηνή του Αχιλλέα)", "options": [{"label": "Α", "text": "Όταν ο Πρίαμος μπήκε στη σκηνή του Αχιλλέα, τον βρήκε να έχει μόλις τελειώσει το δείπνο του, με το τραπέζι μπροστά του ακόμα στρωμένο."}, {"label": "Β", "text": "Ο γέροντας κήρυκας Ιδαίος μπήκε μαζί με τον Πρίαμο μέσα στη σκηνή, γονατίζοντας κι αυτός μπροστά στον Αχιλλέα για να τον παρακαλέσει."}, {"label": "Γ", "text": "Ο Πρίαμος μπήκε εντελώς αθόρυβα, έπιασε τα γόνατα του Αχιλλέα και του φίλησε τα χέρια, «τα ανδροφόνα, που του είχαν σκοτώσει τόσα παιδιά»."}], "lie": "Β", "explanation": "Ο Ιδαίος ΔΕΝ μπήκε στη σκηνή. Ο Πρίαμος, ακολουθώντας τις οδηγίες του θεού Ερμή, άφησε τον κήρυκα έξω στην αυλή για να προσέχει τις άμαξες και τα μουλάρια, και μπήκε ολομόναχος στη φωλιά του «λιονταριού». Οι προτάσεις Α και Γ είναι εντυπωσιακές λεπτομέρειες του κειμένου."}, {"id": 47, "title": "Γενικές Γνώσεις (Η Δομή του Έπους)", "options": [{"label": "Α", "text": "Το κύριο θέμα (η βασική ιδέα) της Ιλιάδας δηλώνεται στην πρώτη κιόλας λέξη του πρωτότυπου αρχαίου κειμένου, που είναι η λέξη \"μῆνις\" (θυμός, οργή)."}, {"label": "Β", "text": "Η Ιλιάδα αποτελείται συνολικά από 24 ραψωδίες, όσα είναι και τα γράμματα του ελληνικού αλφαβήτου (από το κεφαλαίο Α έως το Ω)."}, {"label": "Γ", "text": "Το έπος ολοκληρώνεται θριαμβευτικά με τη διάσημη σκηνή του Δούρειου Ίππου και την τελική καταστροφή και πυρπόληση της πόλης της Τροίας."}], "lie": "Γ", "explanation": "Όπως συζητήσαμε (και όπως συχνά μπερδεύουν οι μαθητές), ο Δούρειος Ίππος και η πτώση της Τροίας ΔΕΝ υπάρχουν στην Ιλιάδα! Το έπος τελειώνει ειρηνικά και σε κλίμα πένθους, με την ταφή του Έκτορα. Τα γεγονότα του Δούρειου Ίππου τα μαθαίνουμε από την Οδύσσεια και άλλα έπη. Οι προτάσεις Α και Β είναι βασικά στοιχεία εισαγωγής."}, {"id": 48, "title": "Ραψωδία Ζ (Ο Αστυάνακτας)", "options": [{"label": "Α", "text": "Ο Έκτορας, βλέποντας το μωρό του να κλαίει από τον φόβο του, το μάλωσε αυστηρά, λέγοντας πως ο γιος ενός πολεμιστή δεν πρέπει να φοβάται τίποτα."}, {"label": "Β", "text": "Ο Έκτορας έβγαλε την αστραφτερή χάλκινη περικεφαλαία του με την αλογοουρά, την ακούμπησε στο χώμα και πήρε τον μικρό Αστυάνακτα στην αγκαλιά του."}, {"label": "Γ", "text": "Όταν ο Έκτορας και το μωρό αγκαλιάστηκαν, η Ανδρομάχη δεν άντεξε και χαμογέλασε μέσα από τα δάκρυά της (\"δακρυόεν γελάσασα\")."}], "lie": "Α", "explanation": "Ο Έκτορας σε καμία περίπτωση δεν μάλωσε το παιδί! Αντιθέτως, η αντίδρασή του δείχνει την τρυφερή, πατρική του πλευρά: γέλασε με τον φόβο του παιδιού (καθώς κατάλαβε ότι έφταιγε η πανοπλία του) και την έβγαλε αμέσως για να το ηρεμήσει. Οι προτάσεις Β και Γ φτιάχνουν ίσως την πιο ανθρώπινη σκηνή όλης της Ιλιάδας."}, {"id": 49, "title": "Ραψωδία Α (Οι Κήρυκες στη σκηνή του Αχιλλέα)", "options": [{"label": "Α", "text": "Οι δύο κήρυκες του Αγαμέμνονα, ο Ταλθύβιος και ο Ευρυβάτης, πλησίασαν τη σκηνή του Αχιλλέα νιώθοντας μεγάλη ντροπή, δισταγμό και φόβο."}, {"label": "Β", "text": "Ο Αχιλλέας επιτέθηκε στους δύο κήρυκες με το σπαθί του όταν τους είδε, και ο Πάτροκλος χρειάστηκε να μπει στη μέση για να τους γλιτώσει."}, {"label": "Γ", "text": "Ο Αχιλλέας τους υποδέχτηκε ευγενικά, τους καθησύχασε λέγοντας ότι δεν φταίνε αυτοί για τις διαταγές του βασιλιά, και ζήτησε από τον Πάτροκλο να τους παραδώσει τη Βρισηίδα."}], "lie": "Β", "explanation": "Ο Αχιλλέας ήταν απόλυτα σωστός στους κανόνες της φιλοξενίας και του δικαίου. Ήξερε ότι οι αγγελιοφόροι ήταν ιερά πρόσωπα και απλώς εκτελούσαν εντολές. Δεν τους πείραξε καθόλου, δείχνοντας ότι ο θυμός του απευθυνόταν αποκλειστικά στον Αγαμέμνονα. Οι Α και Γ είναι τα αληθινά γεγονότα."}, {"id": 50, "title": "Ραψωδία Ω (Η Φιλοξενία του Αχιλλέα)", "options": [{"label": "Α", "text": "Ο Αχιλλέας και ο Πρίαμος, μετά τον θρήνο τους, κάθισαν μαζί στο ίδιο τραπέζι και μοιράστηκαν το ίδιο ψητό κρέας, σε μια σπουδαία στιγμή συμφιλίωσης."}, {"label": "Β", "text": "Για να πείσει τον Πρίαμο να φάει (αφού ο γέροντας νήστευε από τη μέρα που πέθανε ο γιος του), ο Αχιλλέας του διηγήθηκε τον μύθο της Νιόβης."}, {"label": "Γ", "text": "Ο Αχιλλέας παραχώρησε στον Πρίαμο το δικό του κρεβάτι μέσα στο πιο ζεστό μέρος της σκηνής για να κοιμηθεί άνετα, ενώ ο ίδιος βγήκε να κοιμηθεί έξω."}], "lie": "Γ", "explanation": "Αν και τον φιλοξένησε άψογα, ο Αχιλλέας δεν του έδωσε το κρεβάτι του. Στην πραγματικότητα, έστρωσε για τον Πρίαμο στον πρόδομο (στο σκεπαστό μπαλκόνι της σκηνής). Αυτό δεν έγινε από αγένεια, αλλά για προστασία: αν έμπαινε ξαφνικά κάποιος Αχαιός στρατηγός στη σκηνή για συμβούλιο μέσα στη νύχτα, δεν έπρεπε να δει τον βασιλιά της Τροίας εκεί! Οι προτάσεις Α και Β είναι αληθείς."}, {"id": 51, "title": "Ραψωδία Α (Η εμφάνιση της Θέτιδας)", "options": [{"label": "Α", "text": "Ο Αχιλλέας, μετά την αδικία που υπέστη, πήγε μόνος του στην ακρογιαλιά, ξέσπασε σε κλάματα και κάλεσε τη μητέρα του, τη θαλασσινή θεά Θέτιδα, να τον βοηθήσει."}, {"label": "Β", "text": "Η Θέτιδα βγήκε από τα βάθη της θάλασσας σαν ομίχλη, κάθισε δίπλα στον γιο της και τον χάιδεψε τρυφερά για να τον παρηγορήσει."}, {"label": "Γ", "text": "Η Θέτιδα ανέβηκε στην ξηρά οδηγώντας ένα εντυπωσιακό χρυσό άρμα που το έσερναν τέσσερα δελφίνια, προκαλώντας τον θαυμασμό όλων των Αχαιών."}], "lie": "Γ", "explanation": "Η εμφάνιση της Θέτιδας ήταν απολύτως διακριτική και μυστική, «σαν ομίχλη» μέσα από το κύμα. Δεν υπήρχε κανένα άρμα με δελφίνια, ούτε την είδαν οι υπόλοιποι Αχαιοί! Ήταν μια βαθιά προσωπική, τρυφερή στιγμή μεταξύ μητέρας και γιου. Οι προτάσεις Α και Β περιγράφουν σωστά τη σκηνή."}, {"id": 52, "title": "Ραψωδία Ζ (Ο Γλαύκος και ο Διομήδης)", "options": [{"label": "Α", "text": "Ο Γλαύκος και ο Διομήδης αντάλλαξαν τις πανοπλίες τους ως ένδειξη φιλίας (ξενίας), συμφωνώντας να μην πολεμήσουν ο ένας εναντίον του άλλου."}, {"label": "Β", "text": "Μετά την ανταλλαγή των όπλων τους, οι δύο ήρωες αποφάσισαν να ενώσουν τις δυνάμεις τους και να επιτεθούν μαζί στον Έκτορα για να τελειώσουν τον πόλεμο."}, {"label": "Γ", "text": "Η ανταλλαγή των όπλων ήταν εντελώς άνιση: ο Γλαύκος έδωσε μια χρυσή πανοπλία αξίας εκατό βοδιών και πήρε μια χάλκινη αξίας μόνο εννέα βοδιών («χρύσεα χαλκείων»)."}], "lie": "Β", "explanation": "Δεν ένωσαν τις δυνάμεις τους! Απλώς συμφώνησαν να αποφεύγουν ο ένας τον άλλον μέσα στο χάος της μάχης και πήγε ο καθένας στον δρόμο του για να πολεμήσει άλλους εχθρούς. Οι προτάσεις Α και Γ είναι η περίφημη σκηνή του σεβασμού των δεσμών φιλοξενίας."}, {"id": 53, "title": "Ραψωδία Π (Μετά τον θάνατο του Πατρόκλου)", "options": [{"label": "Α", "text": "Τα αθάνατα άλογα του Αχιλλέα, ο Ξάνθος και ο Βάλιος, βλέποντας τον Πάτροκλο νεκρό στο χώμα, έγειραν τα κεφάλια τους και άρχισαν να κλαίνε με καυτά δάκρυα."}, {"label": "Β", "text": "Ο Έκτορας, αφού σκότωσε τον Πάτροκλο, κατάφερε να πάρει την πανοπλία του Αχιλλέα, αλλά οι Αχαιοί πολέμησαν σκληρά και κατάφεραν να σώσουν το γυμνό σώμα του Πατρόκλου."}, {"label": "Γ", "text": "Ο Πάτροκλος αναστήθηκε για λίγα λεπτά από τον θεό Δία για να μπορέσει να αποχαιρετήσει τους συντρόφους του πριν πάει στον Άδη."}], "lie": "Γ", "explanation": "Στην Ιλιάδα, ο θάνατος είναι οριστικός. Δεν υπάρχει καμία ανάσταση, ούτε καν για λίγα λεπτά, ανεξάρτητα από το πόσο σπουδαίος ήταν ο ήρωας. Οι προτάσεις Α και Β είναι αληθινές, με το κλάμα των αλόγων να αποτελεί μια από τις πιο συγκλονιστικές εικόνες του έπους."}, {"id": 54, "title": "Ραψωδία Χ (Ο Τρόπος της Μάχης)", "options": [{"label": "Α", "text": "Στην καταδίωξη γύρω από την Τροία, ο Όμηρος παρομοιάζει τον Αχιλλέα με γεράκι (το πιο γρήγορο πουλί) και τον Έκτορα με τρομαγμένο περιστέρι."}, {"label": "Β", "text": "Ο Έκτορας χρησιμοποίησε εναντίον του Αχιλλέα ένα δηλητηριασμένο βέλος, προσπαθώντας να τον πετύχει στη φτέρνα, που ήταν το μόνο τρωτό του σημείο."}, {"label": "Γ", "text": "Όταν ο Έκτορας ρίχνει το δόρυ του και πετυχαίνει την ασπίδα του Αχιλλέα, το δόρυ δεν την τρυπάει, αλλά αναπηδά και πέφτει στο χώμα."}], "lie": "Β", "explanation": "Στην Ιλιάδα, ο Έκτορας ποτέ δεν ρίχνει βέλος στον Αχιλλέα, και σίγουρα ο μύθος της «Αχίλλειου πτέρνας» (που τον σκοτώνει ο Πάρης με βέλος) ΔΕΝ αναφέρεται στην Ιλιάδα, αλλά σε μεταγενέστερα έπη! Η μονομαχία τους στην Ιλιάδα έγινε αποκλειστικά με δόρατα και σπαθιά. Οι προτάσεις Α και Γ είναι τα πραγματικά γεγονότα της ραψωδίας Χ."}, {"id": 55, "title": "Ραψωδία Ω (Ο σεβασμός στον νεκρό)", "options": [{"label": "Α", "text": "Ο Αχιλλέας διέταξε τις δούλες του να πλύνουν και να αλείψουν με λάδι το σώμα του Έκτορα κρυφά, χωρίς να το βλέπει ο Πρίαμος."}, {"label": "Β", "text": "Ο λόγος που ο Αχιλλέας έκρυψε το σώμα κατά τη διάρκεια της ετοιμασίας ήταν γιατί φοβόταν πως ο Πρίαμος, βλέποντας το νεκρό παιδί του, θα ούρλιαζε από θυμό, προκαλώντας τον Αχιλλέα να τον σκοτώσει."}, {"label": "Γ", "text": "Ο Πρίαμος, για να εκδικηθεί τον Αχιλλέα, έριξε κρυφά δηλητήριο στο κρασί του την ώρα που έτρωγαν μαζί στη σκηνή."}], "lie": "Γ", "explanation": "Δεν υπήρχε καμία σκέψη για εκδίκηση ή δηλητήριο μέσα στη σκηνή. Ο Πρίαμος ήταν ένας απελπισμένος πατέρας που ικέτευε, και οι δύο άντρες μοιράστηκαν το γεύμα τους με απόλυτο σεβασμό ο ένας στον πόνο του άλλου. Οι προτάσεις Α και Β εξηγούν τέλεια την ψυχολογική οξυδέρκεια του Αχιλλέα σε αυτή τη σκηνή."}, {"id": 56, "title": "Ραψωδία Ω (Ο γυρισμός και οι γυναίκες)", "options": [{"label": "Α", "text": "Η κόρη του Πρίαμου, η Κασσάνδρα, ήταν η πρώτη που είδε από τα τείχη της Τροίας τον πατέρα της να επιστρέφει την αυγή με το νεκρό σώμα του αδερφού της."}, {"label": "Β", "text": "Η Ελένη απαγορεύτηκε αυστηρά να πλησιάσει το σώμα του Έκτορα και να τον θρηνήσει, επειδή όλοι οι Τρώες την κατηγορούσαν ως αιτία του θανάτου του."}, {"label": "Γ", "text": "Η Ανδρομάχη προέβλεψε στον θρήνο της ότι, χωρίς τον προστάτη της, η Τροία θα πέσει πολύ σύντομα και η ίδια μαζί με το παιδί της θα γίνουν δούλοι των Αχαιών."}], "lie": "Β", "explanation": "Κανείς δεν απαγόρευσε στην Ελένη να θρηνήσει. Μάλιστα, η Ελένη έβγαλε τον τρίτο και τελευταίο θρήνο (μετά την Ανδρομάχη και την Εκάβη), αποκαλύπτοντας ότι ο Έκτορας ήταν ο μόνος στην Τροία που δεν της μίλησε ποτέ άσχημα και την προστάτευε πάντα από τους άλλους! Οι Α και Γ είναι αληθείς."}, {"id": 57, "title": "Γενικές Γνώσεις (Το Τέλος της Ιλιάδας)", "options": [{"label": "Α", "text": "Το έπος κλείνει με μια λιτή και ήρεμη περιγραφή: «Έτσι έκαναν την ταφή του ιπποδάμαστου (δαμαστή αλόγων) Έκτορα»."}, {"label": "Β", "text": "Το τελευταίο πράγμα που περιγράφεται στην Ιλιάδα είναι ο θάνατος του Αχιλλέα, ολοκληρώνοντας έτσι τη μοίρα και των δύο μεγάλων ηρώων."}, {"label": "Γ", "text": "Για την ταφή του Έκτορα, οι Τρώες μάζευαν ξύλα από το βουνό Ίδη για εννέα μέρες, και τη δέκατη μέρα άναψαν την τεράστια πυρά."}], "lie": "Β", "explanation": "Ο Αχιλλέας ΔΕΝ πεθαίνει μέσα στην Ιλιάδα! Είναι ακόμα ζωντανός στο τέλος του έπους. Ο θάνατός του από τον Πάρη, όπως και η πτώση της Τροίας, ανήκουν στα «Κύκλια Έπη», που περιγράφουν τα γεγονότα μετά την Ιλιάδα. Οι προτάσεις Α και Γ αποτελούν το πραγματικό, πένθιμο τέλος του έργου."}, {"id": 58, "title": "Χαρακτήρες (Ποιος είναι ποιος)", "options": [{"label": "Α", "text": "Ο Αγαμέμνονας είναι ο αρχιστράτηγος επειδή είναι ο βασιλιάς των Μυκηνών και έφερε τα περισσότερα καράβια (100) στην Τροία."}, {"label": "Β", "text": "Ο Μενέλαος (ο άντρας της Ελένης) είναι ο μεγαλύτερος και πιο τρομακτικός πολεμιστής των Αχαιών, ακόμα πιο δυνατός και από τον Αχιλλέα."}, {"label": "Γ", "text": "Ο Νέστορας είναι ο μεγαλύτερος σε ηλικία και ο πιο σοφός από όλους τους βασιλιάδες των Αχαιών, και όλοι σέβονται τις συμβουλές του."}], "lie": "Β", "explanation": "Ο Μενέλαος είναι γενναίος βασιλιάς, αλλά σε καμία περίπτωση δεν είναι ο κορυφαίος πολεμιστής. Ο Αχιλλέας είναι αδιαμφισβήτητα ο πιο δυνατός και ικανός μαχητής ολόκληρου του έπους (ακολουθούμενος από τον Αίαντα και τον Διομήδη). Οι προτάσεις Α και Γ περιγράφουν σωστά την ιεραρχία στο στρατόπεδο των Ελλήνων."}, {"id": 59, "title": "Ομηρικές Παρομοιώσεις", "options": [{"label": "Α", "text": "Ο Όμηρος χρησιμοποιεί συχνά εικόνες από την άγρια φύση, παρομοιάζοντας τους ήρωες στη μάχη με λιοντάρια, κάπρους, καταιγίδες ή φωτιές στο δάσος."}, {"label": "Β", "text": "Οι ομηρικές παρομοιώσεις είναι πολύ σύντομες, συνήθως μόνο μία λέξη (π.χ., \"έτρεχε σαν λαγός\") για να μην καθυστερεί η δράση του πολέμου."}, {"label": "Γ", "text": "Οι παρομοιώσεις χρησιμοποιούνταν κυρίως για να δώσουν την ευκαιρία στον ακροατή να ξεκουραστεί από τη φρίκη του πολέμου, φέρνοντάς του στο μυαλό εικόνες από την ειρηνική, καθημερινή ζωή."}], "lie": "Β", "explanation": "Οι ομηρικές παρομοιώσεις κάθε άλλο παρά σύντομες είναι! Είναι \"εκτενείς\" (επικές παρομοιώσεις), που σημαίνει ότι ο ποιητής ξεκινάει να παρομοιάζει κάτι και μετά ξεχνιέται, αφιερώνοντας πολλούς στίχους για να περιγράψει ολόκληρη τη σκηνή της φύσης με κάθε λεπτομέρεια! Οι Α και Γ εξηγούν τον σωστό ρόλο των παρομοιώσεων στο έργο."}, {"id": 60, "title": "Η Δημιουργία και ο Ποιητής", "options": [{"label": "Α", "text": "Η Ιλιάδα πιστεύεται ότι δημιουργήθηκε γύρω στον 8ο αιώνα π.Χ., πολλούς αιώνες μετά την εποχή που υποτίθεται ότι έγινε ο Τρωικός Πόλεμος (Μυκηναϊκή εποχή)."}, {"label": "Β", "text": "Σύμφωνα με την παράδοση της αρχαιότητας, ο ποιητής Όμηρος ήταν ένας ηλικιωμένος και τυφλός αοιδός από την περιοχή της Ιωνίας."}, {"label": "Γ", "text": "Ο Όμηρος έγραψε την Ιλιάδα αποκλειστικά για να διδάσκεται στα σχολεία της αρχαίας Αθήνας ως μάθημα ιστορίας και γεωγραφίας."}], "lie": "Γ", "explanation": "Τα ομηρικά έπη δεν γράφτηκαν ως σχολικά βιβλία, ούτε ως εγχειρίδια ιστορίας! Ήταν ζωντανή, προφορική ποίηση που τραγουδιόταν σε γιορτές και συμπόσια για να διασκεδάσει, να συγκινήσει και να θυμίσει στους ανθρώπους τα ιδανικά του ηρωισμού. Φυσικά, αργότερα έγιναν το θεμέλιο της εκπαίδευσης, αλλά δεν ήταν αυτός ο αρχικός τους σκοπός. Οι προτάσεις Α και Β είναι τα βασικά ιστορικά στοιχεία που αφορούν τον δημιουργό και την εποχή του."}];
+let idx = 0, roundScore = 0, answered = false, timer = 25, timerId = null, muted = false;
+
+function getTotals(){
+  const total = Number(localStorage.getItem('iliada_game_total_score') || '0');
+  let scores = {};
+  try{ scores = JSON.parse(localStorage.getItem('iliada_game_round_scores') || '{}'); }catch(e){ scores = {}; }
+  return { total, scores };
+}
+function setTotals(newRoundScore){
+  const totals = getTotals();
+  const oldRound = Number(totals.scores[ROUND_KEY] || 0);
+  const total = totals.total - oldRound + newRoundScore;
+  totals.scores[ROUND_KEY] = newRoundScore;
+  localStorage.setItem('iliada_game_total_score', String(total));
+  localStorage.setItem('iliada_game_round_scores', JSON.stringify(totals.scores));
+  return total;
+}
+function updateScoreChips(){
+  const grand = setTotals(roundScore);
+  document.getElementById('roundScoreChip').textContent = 'Σκορ γύρου: ' + roundScore;
+  document.getElementById('totalScoreChip').textContent = 'Συνολικό σκορ: ' + grand;
+}
+function beep(freq=660, duration=0.09, type='sine', gain=0.03){
+  if(muted) return;
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  if(!AudioCtx) return;
+  const ctx = new AudioCtx();
+  const osc = ctx.createOscillator();
+  const g = ctx.createGain();
+  osc.type = type; osc.frequency.value = freq; g.gain.value = gain;
+  osc.connect(g); g.connect(ctx.destination);
+  osc.start();
+  g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+  osc.stop(ctx.currentTime + duration);
+}
+function successSound(){ beep(740, .08, 'triangle', .04); setTimeout(()=>beep(990,.11,'triangle',.035), 85); }
+function failSound(){ beep(360,.1,'sawtooth',.04); setTimeout(()=>beep(250,.12,'sawtooth',.035), 100); }
+function tickSound(){ beep(520,.03,'square',.012); }
+function renderQuestion(){
+  answered = false;
+  const q = QUESTIONS[idx];
+  document.getElementById('questionNumber').textContent = 'Ερώτηση ' + (idx+1) + ' / ' + QUESTIONS.length;
+  document.getElementById('questionTitle').textContent = q.title;
+  document.getElementById('questionFill').style.width = ((idx / QUESTIONS.length) * 100) + '%';
+  document.getElementById('feedbackBox').classList.remove('show');
+  document.getElementById('nextBtn').disabled = true;
+  const box = document.getElementById('optionsBox');
+  box.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option';
+    btn.type = 'button';
+    btn.dataset.label = opt.label;
+    btn.innerHTML = '<div class="optionline"><span class="token">' + opt.label + '</span><span class="otext">' + opt.text + '</span></div>';
+    btn.addEventListener('click', ()=>choose(opt.label));
+    box.appendChild(btn);
+  });
+  resetTimer();
+}
+function resetTimer(){
+  clearInterval(timerId); timer = 25;
+  const fill = document.getElementById('timerFill');
+  fill.classList.remove('warn');
+  updateTimerUI();
+  timerId = setInterval(() => {
+    timer -= 1;
+    if(timer <= 10 && timer > 0){ document.getElementById('timerFill').classList.add('warn'); tickSound(); }
+    updateTimerUI();
+    if(timer <= 0){ clearInterval(timerId); if(!answered) timeoutQuestion(); }
+  }, 1000);
+}
+function updateTimerUI(){
+  document.getElementById('timerText').textContent = timer + '″';
+  document.getElementById('timerFill').style.width = ((timer / 25) * 100) + '%';
+}
+function choose(label){
+  if(answered) return;
+  answered = true; clearInterval(timerId);
+  const q = QUESTIONS[idx];
+  const correct = q.lie;
+  const isRight = label === correct;
+  if(isRight){ roundScore += POINTS; successSound(); } else { roundScore -= 1; failSound(); }
+  updateScoreChips();
+  const opts = [...document.querySelectorAll('.option')];
+  opts.forEach(btn => {
+    const l = btn.dataset.label;
+    if(l === correct) btn.classList.add('correct');
+    else if(l === label && !isRight) btn.classList.add('wrong');
+    else btn.classList.add('dim');
+    btn.disabled = true;
+  });
+  const fb = document.getElementById('feedbackBox');
+  document.getElementById('feedbackTitle').innerHTML = isRight
+    ? '<span class="badge good">Σωστό!</span>'
+    : '<span class="badge bad">Λάθος</span>';
+  document.getElementById('feedbackDelta').textContent = isRight ? 'Κέρδισες ' + POINTS + ' πόντο' + (POINTS === 1 ? '' : 'υς') + '.' : 'Αφαιρέθηκε 1 πόντος.';
+  document.getElementById('correctAnswerLabel').textContent = correct;
+  document.getElementById('feedbackExplanation').textContent = q.explanation;
+  fb.classList.add('show');
+  document.getElementById('nextBtn').disabled = false;
+}
+function timeoutQuestion(){
+  if(answered) return;
+  answered = true; roundScore -= 1; failSound(); updateScoreChips();
+  const q = QUESTIONS[idx];
+  const opts = [...document.querySelectorAll('.option')];
+  opts.forEach(btn => {
+    const l = btn.dataset.label;
+    if(l === q.lie) btn.classList.add('correct');
+    else btn.classList.add('dim');
+    btn.disabled = true;
+  });
+  const fb = document.getElementById('feedbackBox');
+  document.getElementById('feedbackTitle').innerHTML = '<span class="badge bad">Ο χρόνος τελείωσε</span>';
+  document.getElementById('feedbackDelta').textContent = 'Αφαιρέθηκε 1 πόντος.';
+  document.getElementById('correctAnswerLabel').textContent = q.lie;
+  document.getElementById('feedbackExplanation').textContent = q.explanation;
+  fb.classList.add('show');
+  document.getElementById('nextBtn').disabled = false;
+}
+function finishRound(){
+  document.getElementById('playScreen').style.display = 'none';
+  const end = document.getElementById('endScreen');
+  end.classList.add('show');
+  document.getElementById('finalRoundScore').textContent = roundScore;
+  const grand = setTotals(roundScore);
+  document.getElementById('grandTotalText').textContent = grand;
+  let title = 'Ο γύρος ολοκληρώθηκε!';
+  let message = 'Καλή δουλειά!';
+  if(roundScore >= 80){ title = 'Νικητήρια εμφάνιση!'; message = 'Πολύ δυνατός γύρος με σταθερές επιλογές και καλό έλεγχο του χρόνου.'; successSound(); setTimeout(successSound,110); }
+  else if(roundScore >= 40){ title = 'Πολύ καλή προσπάθεια!'; message = 'Έχεις πολύ καλή εικόνα της υπόθεσης της Ιλιάδας.'; }
+  else { title = 'Ο γύρος θέλει ρεβάνς!'; message = 'Ξαναπαίξ’ τον ή προχώρα και επέστρεψε μετά για καλύτερο σκορ.'; }
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endMessage').textContent = message;
+  const buttons = document.getElementById('endButtons');
+  buttons.innerHTML = '';
+  const home = document.createElement('a'); home.href = 'iliada_show_tight_index.html'; home.className = 'btn ghost'; home.textContent = '⌂ Αρχική'; buttons.appendChild(home);
+  const replay = document.createElement('a'); replay.href = 'iliada_show_tight_round_4.html'; replay.className = 'btn secondary'; replay.textContent = 'Ξανά τον γύρο'; buttons.appendChild(replay);
+  const next = document.createElement('a'); next.className = 'btn primary';
+  next.href = 'iliada_show_tight_index.html'; next.textContent = 'Επιστροφή στην αρχική'; buttons.appendChild(next);
+}
+document.getElementById('nextBtn').addEventListener('click', () => { idx += 1; if(idx >= QUESTIONS.length) finishRound(); else renderQuestion(); });
+document.getElementById('muteBtn').addEventListener('click', function(){ muted = !muted; this.textContent = muted ? '🔇 Ήχος: OFF' : '🔊 Ήχος: ON'; });
+document.addEventListener('keydown', (e) => {
+  if(document.getElementById('playScreen').style.display === 'none') return;
+  if(answered){ if(e.key === 'Enter' && !document.getElementById('nextBtn').disabled) document.getElementById('nextBtn').click(); return; }
+  if(['1','2','3'].includes(e.key)){ const map = {'1':'Α','2':'Β','3':'Γ'}; choose(map[e.key]); }
+});
+updateScoreChips(); renderQuestion();
+</script>
+</body>
+</html>
