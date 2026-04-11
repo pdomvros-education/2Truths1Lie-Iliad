@@ -47,7 +47,7 @@ a{text-decoration:none;color:inherit} button{font-family:inherit}
     <main class="main">
       <div class="toolbar">
         <div class="btnrow">
-          <a class="btn ghost" href="iliada_show_tight_index.html">⌂ Αρχική</a>
+          <a class="btn ghost" href="index.html">⌂ Αρχική</a>
           <button class="btn secondary" id="muteBtn" type="button">🔊 Ήχος: ON</button>
         </div>
         <div class="chips">
@@ -248,7 +248,7 @@ function finishRound(){
   document.getElementById('endMessage').textContent = message;
   const buttons = document.getElementById('endButtons');
   buttons.innerHTML = '';
-  const home = document.createElement('a'); home.href = 'iliada_show_tight_index.html'; home.className = 'btn ghost'; home.textContent = '⌂ Αρχική'; buttons.appendChild(home);
+  const home = document.createElement('a'); home.href = 'index.html'; home.className = 'btn ghost'; home.textContent = '⌂ Αρχική'; buttons.appendChild(home);
   const replay = document.createElement('a'); replay.href = 'iliada_show_tight_round_3.html'; replay.className = 'btn secondary'; replay.textContent = 'Ξανά τον γύρο'; buttons.appendChild(replay);
   const next = document.createElement('a'); next.className = 'btn primary';
   next.href = 'iliada_show_tight_round_4.html'; next.textContent = 'Συνέχεια στον Γύρο 4'; buttons.appendChild(next);
