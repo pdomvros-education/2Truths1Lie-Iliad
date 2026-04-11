@@ -26,6 +26,33 @@ a{text-decoration:none;color:inherit} button{font-family:inherit}
 .end{display:none;padding:18px;text-align:center} .end.show{display:block} .end h2{margin:0 0 8px;font-size:1.8rem} .scorebig{font-size:clamp(2.4rem,6vw,4rem);font-weight:900;color:#8e4b2c;margin:6px 0} .end p{margin:.4rem auto;max-width:720px;line-height:1.5;color:var(--muted)}
 .footer{padding:8px 14px 14px;text-align:center;font-size:.91rem;color:#734c37}
 @media (max-width:840px){.wrap{width:min(1220px,calc(100% - 10px));margin:5px auto 8px} .main{padding:10px} .header{padding:11px 12px 8px} .game,.end{padding:12px} .qtitle{font-size:1.16rem}}
+
+.creditbar{
+  margin:10px 12px 0;
+  padding:10px 14px;
+  border-radius:16px;
+  background:linear-gradient(180deg,rgba(255,248,236,.98),rgba(242,225,194,.98));
+  border:2px solid rgba(125,67,41,.28);
+  color:#6a3d28;
+  font-size:.96rem;
+  font-weight:800;
+  line-height:1.35;
+  text-align:center;
+  box-shadow:0 8px 18px rgba(79,43,24,.10);
+}
+.footer,.foot{
+  padding:10px 14px 16px !important;
+  text-align:center;
+  font-size:.97rem !important;
+  font-weight:800;
+  color:#6a3d28 !important;
+  background:linear-gradient(180deg,rgba(242,225,194,.55),rgba(255,248,236,.4));
+  border-top:1px solid rgba(125,67,41,.18);
+}
+@media (max-width:840px){
+  .creditbar{margin:8px 10px 0;padding:9px 11px;font-size:.92rem}
+}
+
 </style>
 </head>
 <body>
@@ -44,6 +71,8 @@ a{text-decoration:none;color:inherit} button{font-family:inherit}
         <div class="logo"><img src="logo-GR.png" alt="logo" onerror="this.style.display='none'"></div>
       </div>
     </header>
+    <div class="creditbar">Δημιουργία: Παναγιώτης Δόμβρος, Εκπαιδευτικός Αγγλικής Γλώσσας &amp; Θεατρολόγος, Διευθυντής 1ου Γυμνασίου Πυλαίας</div>
+
     <main class="main">
       <div class="toolbar">
         <div class="btnrow">
